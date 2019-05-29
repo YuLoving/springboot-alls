@@ -2,6 +2,8 @@ package nj.zj.study.config.redisconfig;
 
 import java.util.List;
 
+
+
 /**  
 
 * <p>Description: </p>  
@@ -16,7 +18,6 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-
 @Component
 public class JedisClientPool implements JedisClient {
 	

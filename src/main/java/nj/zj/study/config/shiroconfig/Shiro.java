@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
 * @date 2019年5月29日  
 
 */
-@Configuration
+//@Configuration
 public class Shiro {
 
 	@Autowired

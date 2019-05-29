@@ -15,7 +15,7 @@
         <constructor-arg name="port" value="6379"></constructor-arg>
     </bean>
 
-    <bean	id="jedisClientPool" class="com.nj.redisconfig.JedisClientPool">
+    <bean	id="jedisClientPool" class="nj.zj.study.config.redisconfig.JedisClientPool">
         <property name="jedisPool" ref="jedisPool"></property>
     </bean>
 

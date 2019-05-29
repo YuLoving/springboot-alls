@@ -17,4 +17,5 @@ import nj.zj.study.model.UserInfo;
 */
 public interface UserService {
 	Object batchinsert(List<UserInfo> list);
+	Object getall();
 }

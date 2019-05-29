@@ -2,12 +2,17 @@ package nj.zj.study.service.Impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
 import lombok.extern.slf4j.Slf4j;
+import nj.zj.study.config.redisconfig.JedisClient;
 import nj.zj.study.exception.ErrorCodeEnum;
 import nj.zj.study.exception.MyException;
 import nj.zj.study.mapper.Usermapper;
@@ -32,6 +37,15 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private Usermapper mapper;
 	
+	@Autowired
+	private JedisClient jedisClient;
+	
+	@Value("${User_key}")
+	private String User_key;
+	
+	@Value("${USER_KRY_EXPIRE}")
+	private Integer USER_KRY_EXPIRE;
+	
 	@Override
 	public Object batchinsert(List<UserInfo> list) {
 		String json = JSON.toJSONString(list);
@@ -52,6 +66,30 @@ public class UserServiceImpl implements UserService {
 		}
 		
 	
+	}
+
+	/* 
+	 * 测试Redis
+	 */
+	@Override
+	public Object getall() {
+		/**
+		 * 先去redis中查询，1.如果有直接返回，2.没有再去数据库查询，同时添加到Redis
+		 */
+		String json = jedisClient.get(User_key);
+		if(StringUtils.isNotBlank(json)) {
+			log.info("=======通过Redis来拉取数据====");
+			JSONArray parseArray = JSONArray.parseArray(json);
+			return parseArray;
+		}
+		log.info("=======Redis中无数据,通过数据库来拉取数据====");
+		List<UserInfo> list = mapper.getall();
+		String jsonString = JSON.toJSONString(list);
+		//插入list
+		jedisClient.set(User_key, jsonString);
+		//设置过期时间
+		jedisClient.expire(User_key, USER_KRY_EXPIRE);
+		return list;
 	}
 
 }

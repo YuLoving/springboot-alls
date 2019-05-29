@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 * @date 2019年5月29日  
 
 */
-@Component
+//@Component
 public class MyShiroRealm extends AuthorizingRealm{
 
 	/**

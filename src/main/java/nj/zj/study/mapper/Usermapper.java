@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import nj.zj.study.model.UserInfo;
 
@@ -23,5 +24,11 @@ public interface Usermapper {
 	 * 批量插入
 	 */
 	Integer batchinsert(@Param("list") List<UserInfo> list);
+	
+	/**
+	 * 测试redis
+	 */
+	@Select("SELECT * FROM yhjob_user")
+	List<UserInfo> getall();
 
 }
