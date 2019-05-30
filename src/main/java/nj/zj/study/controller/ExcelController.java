@@ -62,6 +62,8 @@ public class ExcelController {
 			data.setFileName("模版.xlsx");
 			String [] aa= {"姓名","密码"};
 			data.setHead(aa);
+			List<String []> list = new ArrayList<>();
+			data.setData(list);
 			ExcelUtil.exportExcel(response, data);
 		} catch (Exception e) {
 			  logger.error("Excel导出失败！错误信息为："+e.getMessage());

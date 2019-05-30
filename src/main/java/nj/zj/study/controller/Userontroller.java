@@ -21,6 +21,11 @@ public class Userontroller {
 	@Autowired
 	private UserService service;
 	
+	@GetMapping("/to")
+	public String toexcel() {
+		return "index";
+	}
+	
 	@GetMapping("/getall")
 	@ResponseBody
 	public Object getall(){

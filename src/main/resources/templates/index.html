@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src='./jquery-3.1.1.min.js'></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>多Button提交实例</title>
+</head>
+
+<body>
+    <input type="button" value="提交1">
+    <input type="button" value="提交2">
+    <input type="button" value="提交3">
+    <input type="button" value="提交4">
+    <input type="button" value="提交5">
+</body>
+<script>
+    $("input[value='提交1']").bind("click",function(){
+        $.ajax({
+            url:"/Excel/export",
+            type: "get" ,
+            data:{
+            },
+            success:function(cal){
+                console.log(cal)
+            }
+        })
+    })
+
+    $("input[value='提交2']").bind("click",function(){
+        $.ajax({
+            url:"http://www.baidu.com",
+            data:{
+                //自己参数
+            },
+            success:function(cal){
+                console.log(cal)
+            }
+        })
+    })
+
+    $("input[value='提交3']").bind("click",function(){
+        $.ajax({
+            url:"http://www.baidu.com",
+            data:{
+                //自己参数
+            },
+            success:function(cal){
+                console.log(cal)
+            }
+        })
+    })
+</script>
+</html>
