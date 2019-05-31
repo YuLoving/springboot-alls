@@ -17,7 +17,7 @@
 </body>
 <script>
     $("input[value='提交1']").bind("click",function(){
-        $.ajax({
+     /*    $.ajax({
             url:"/Excel/export",
             type: "get" ,
             data:{
@@ -25,7 +25,8 @@
             success:function(cal){
                 console.log(cal)
             }
-        })
+        }) */
+        window.open("/Excel/export")
     })
 
     $("input[value='提交2']").bind("click",function(){
