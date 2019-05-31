@@ -1,0 +1,81 @@
+shiro安全框架
+	--数据库表设计（至少五张表）
+		（1）人员表  、角色表 、权限表（对应的就是菜单表，什么权限对应可以使用什么菜单）
+		人员-角色表（一个人可以拥有多个角色，一个角色也可以多个人拥有。所以多对多）
+		角色-权限表（一个角色可以有多个权限，一个权限可以被多个角色拥有，所以多对多）
+	--表分析（最简单配置）
+	1.人员表：人员ID（一般主键），姓名，密码（一般存md5机密后的），状态，备注，创建人ID（添加当前记录的操作人），创建时间，所属公司ID。
+	2.角色表：角色ID（一般主键），角色名，角色所在的企业ID，状态，备注，创建人ID，创建时间。
+	3.权限表：权限ID（一般主键），权限名（菜单名称），父级菜单，菜单类型(M:菜单,B:按钮)，菜单状态，菜单URL，菜单排序，创建人ID，创建时间。
+	4.人员-权限表：主键，人员ID，角色ID
+	5.角色-权限表：主键，角色ID，权限ID
+		
+--数据库操作分析
+	-- 登录判断
+SELECT
+	*
+FROM
+	yhjob_user
+WHERE
+	user_name =  'admin'
+AND user_status = 'A'
+
+
+
+-- 登录成功之后，需要查看权限id,对应的可以用的菜单名称，父级菜单ID，菜单URL
+
+SELECT DISTINCT
+	(c.id),
+	c.auth_name,
+	parent_id,
+	auth_url
+FROM
+	yhjob_user a,
+	yhjob_role b,
+	yhjob_auth c,
+	yhjob_map_user_role d,
+	yhjob_map_role_auth e
+WHERE
+	a.user_name = 'admin'
+AND a.id = d.user_id
+AND d.role_id = b.id
+AND b.id = e.role_id
+AND e.auth_id = c.id
+
+-- 获取角色ID
+SELECT
+	b.role_id
+FROM
+	yhjob_user a,
+	yhjob_map_user_role b
+WHERE
+	a.id = b.user_id
+AND a.user_name ='admin'
+
+
+-- 权限id,对应的可以用的菜单名称，父级菜单ID，菜单URL ，菜单排序，所属公司
+SELECT DISTINCT
+	(c.id),
+	c.auth_name,
+	parent_id,
+	auth_url,
+	c.auth_order,
+	a.corp_id corpId
+FROM
+	yhjob_user a,
+	yhjob_role b,
+	yhjob_auth c,
+	yhjob_map_user_role d,
+	yhjob_map_role_auth e
+WHERE
+	a.user_name = 'admin'
+AND a.id = d.user_id
+AND d.role_id = b.id
+AND b.id = e.role_id
+AND e.auth_id = c.id
+ORDER BY
+	c.parent_id,
+	c.auth_order
+
+
+	

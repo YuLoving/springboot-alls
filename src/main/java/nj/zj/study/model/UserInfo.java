@@ -2,6 +2,7 @@
 package nj.zj.study.model;
 
 import java.util.Date;
+import java.util.Set;
 
 import lombok.Data;
 
@@ -25,4 +26,7 @@ public class UserInfo {
 	private Integer createUserId;
 	private Date createTime;
 	private String corpId;
+	//shiro所需
+	private Set<String> roles; //角色
+	private Set<String> auths; //权限
 }
