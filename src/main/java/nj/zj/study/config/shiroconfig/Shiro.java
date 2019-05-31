@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
 * @date 2019年5月29日  
 
 */
-//@Configuration
+@Configuration
 public class Shiro {
 
 	@Autowired
@@ -37,7 +37,7 @@ public class Shiro {
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
 		//登录页面
 		shiroFilterFactoryBean.setLoginUrl("/home/login");
-		//登录成功后页面
+		//登录成功后页面	
 //		shiroFilterFactoryBean.setSuccessUrl("/home/index");
 		//未授权页面
 		shiroFilterFactoryBean.setUnauthorizedUrl("/home/403");

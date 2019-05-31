@@ -16,5 +16,36 @@
 		)
 		</foreach>
 	</insert>
+	
+	<select id="getdatabyname" parameterType="string" resultType="nj.zj.study.model.UserInfo">
+	SELECT
+	*
+	FROM
+	yhjob_user
+WHERE
+	<if test=" userName!=null and userName!= '' ">
+		user_name =  #{userName}
+	</if>	
+	AND user_status = 'A'
+	</select>
+	
+	
+	<select id="getAuthNamesByUsername" parameterType="string" resultType="string">
+	SELECT DISTINCT(c.id),c.auth_name,parent_id,auth_url FROM yhjob_user a,yhjob_role b,yhjob_auth c,yhjob_map_user_role d,yhjob_map_role_auth e
+		WHERE 
+		<if test=" userName!=null and userName!=''">
+		a.user_name = #{userName} 
+		</if>
+		AND a.id = d.user_id AND d.role_id = b.id AND b.id = e.role_id AND e.auth_id = c.id 
+	
+	</select>
+	
+	<select id="getRoleIdsByUserName" resultType="string" parameterType="string">
+	select b.role_id from yhjob_user a,yhjob_map_user_role b where a.id = b.user_id 
+	
+	<if test=" userName!=null and userName!=''">
+	and a.user_name = #{userName} 
+	</if>
+	</select>
 </mapper>
 	

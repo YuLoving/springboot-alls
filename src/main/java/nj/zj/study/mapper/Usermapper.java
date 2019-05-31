@@ -1,6 +1,7 @@
 package nj.zj.study.mapper;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -30,5 +31,14 @@ public interface Usermapper {
 	 */
 	@Select("SELECT * FROM yhjob_user")
 	List<UserInfo> getall();
-
+	
+	/**
+	 * shiro配置过程需要的一系列接口
+	 */
+	//根据用户姓名查询信息
+	UserInfo getdatabyname(String name);
+	//获取权限菜单信息
+	Set<String> getAuthNamesByUsername(String name);
+	//获取权限菜单信息
+	Set<String> getRoleIdsByUserName(String name);
 }
