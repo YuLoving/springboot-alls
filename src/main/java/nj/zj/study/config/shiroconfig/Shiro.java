@@ -38,13 +38,13 @@ public class Shiro {
 		//登录页面
 		shiroFilterFactoryBean.setLoginUrl("/home/login");
 		//登录成功后页面	
-//		shiroFilterFactoryBean.setSuccessUrl("/home/index");
+		shiroFilterFactoryBean.setSuccessUrl("/home/success");
 		//未授权页面
 		shiroFilterFactoryBean.setUnauthorizedUrl("/home/403");
 		//拦截器
 		Map<String,String> filterChainDefinitionMap = new LinkedHashMap<>();
 		//anon表示可以匿名访问，authc表示需要认证通过才可以访问
-		filterChainDefinitionMap.put("/home/doLogin", "anon");
+		filterChainDefinitionMap.put("/home/dologin", "anon");
 		filterChainDefinitionMap.put("/js/**", "anon");
 		filterChainDefinitionMap.put("/pagejs/**", "anon");
 		filterChainDefinitionMap.put("/css/**", "anon");

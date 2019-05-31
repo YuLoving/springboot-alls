@@ -62,10 +62,10 @@ public class MyShiroRealm extends AuthorizingRealm{
 		logger.info("=====shiro开始进行登录认证====");
 		UsernamePasswordToken user=(UsernamePasswordToken) token;
 		//获取登录者的信息, 姓名 
-		String username = user.getUsername();
+		String userName = user.getUsername();
 		String password = String.valueOf(user.getPassword());
 		//通过姓名查询
-		UserInfo userInfo = usermapper.getdatabyname(username);
+		UserInfo userInfo = usermapper.getdatabyname(userName);
 		if(userInfo==null) {
 			throw new RuntimeException("用户不存在");
 		}
@@ -79,8 +79,8 @@ public class MyShiroRealm extends AuthorizingRealm{
 		info.setId(userInfo.getId());
 		info.setCorpId(userInfo.getCorpId());
 		info.setUserName(userInfo.getUserName());
-		info.setRoles(usermapper.getRoleIdsByUserName(username));
-		info.setAuths(usermapper.getAuthNamesByUsername(username));
+		info.setRoles(usermapper.getRoleIdsByUserName(userName));
+		info.setAuths(usermapper.getAuthNamesByUsername(userName));
 		//认证缓存信息
 		return new SimpleAuthenticationInfo(info, password, getName());
 	}

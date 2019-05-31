@@ -36,9 +36,9 @@ public interface Usermapper {
 	 * shiro配置过程需要的一系列接口
 	 */
 	//根据用户姓名查询信息
-	UserInfo getdatabyname(String name);
+	UserInfo getdatabyname(@Param("userName") String name);
 	//获取权限菜单信息
-	Set<String> getAuthNamesByUsername(String name);
+	Set<String> getAuthNamesByUsername(@Param("userName") String name);
 	//获取权限菜单信息
-	Set<String> getRoleIdsByUserName(String name);
+	Set<String> getRoleIdsByUserName(@Param("userName") String name);
 }
