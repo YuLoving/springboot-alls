@@ -1,7 +1,11 @@
 package nj.zj.study.controller;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import nj.zj.study.model.TestSwaggerInfo;
+import nj.zj.study.service.TestService;
 import io.swagger.annotations.ApiImplicitParams;
 
 /**  
@@ -28,6 +34,11 @@ import io.swagger.annotations.ApiImplicitParams;
 @Controller
 @RequestMapping("/swagger")
 public class TestSwaggerController {
+	
+	@Autowired
+	private TestService service;
+	
+	
 	 	@ResponseBody
 	    @RequestMapping(value ="/getUserName", method= RequestMethod.GET)
 	    @ApiOperation(value="根据用户编号获取用户姓名", notes="test: 仅1和2有正确返回")
@@ -44,5 +55,23 @@ public class TestSwaggerController {
 	        }
 	    }
 	    
+	 	@GetMapping("/getall")
+	 	@ResponseBody
+	 	@ApiOperation(value="查询所有信息",notes="不需要参数，直接查全部")
+	 	public Object getall() {
+	 		Object object = service.getall();
+	 		return object;
+	 	}
 	  
+	 	
+	 	  
+	 	@PostMapping("/getbyinfo")
+	 	@ResponseBody
+	 	@ApiOperation(value="根据条件查询信息",notes="暂时只支持返回一条对应记录")
+	 	public Object getbyinfo(@RequestBody TestSwaggerInfo info) {
+	 		Object object = service.getallbyinfo(info);
+	 		return object;
+	 	}
+	  
+	 	
 }
