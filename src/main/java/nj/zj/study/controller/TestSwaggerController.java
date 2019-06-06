@@ -1,5 +1,8 @@
 package nj.zj.study.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,6 +41,7 @@ public class TestSwaggerController {
 	@Autowired
 	private TestService service;
 	
+
 	
 	 	@ResponseBody
 	    @RequestMapping(value ="/getUserName", method= RequestMethod.GET)
@@ -73,5 +77,23 @@ public class TestSwaggerController {
 	 		return object;
 	 	}
 	  
+	 	/**
+	 	 * 批量更新
+	 	 */
+	 	@PostMapping("/moreupa")
+	 	@ResponseBody
+	 	public Object moreupa(Integer age,String name) {
+	 		System.err.println("到哪了0");
+	 		List<Map<String, Object>> list = service.getbyage(age);
+	 		System.err.println("到哪了1");
+	 		for (Map<String, Object> map : list) {
+				String oldname = map.get("name").toString();
+				oldname=name;
+			}
+	 		System.err.println("到哪了2");
+	 		System.out.println(list);
+	 		Object object = service.moreupdate(list);
+	 		return object;
+	 	}
 	 	
 }

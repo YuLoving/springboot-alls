@@ -20,5 +20,25 @@
 	and password= #{password} 
 	</if>
 	</select>
+	
+	<update id="moreupdate" parameterType="list">
+		<foreach collection="list" item="ac" index="index" open="" close="" separator=";">
+			update test 
+			<set>
+				<if test="ac.name !=null and ac.name != ''">
+						name=#{ac.name}
+				</if>
+				<!-- <if test="ac.age !=null ">
+						age=#{ac.age}
+				</if> -->
+			</set>
+			where age=#{ac.age}
+		</foreach>
+	</update>
+	
+	<select id="getbyage" parameterType="Integer" resultType="map">
+		select *from test where age=#{age}
+
+	</select>
 </mapper>
 	
