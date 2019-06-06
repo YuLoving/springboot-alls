@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -56,7 +57,7 @@ public class ExcelController {
 	 */
 	@GetMapping("/export")
 	@ResponseBody
-	public void export(HttpServletResponse response) {
+	public void export(HttpServletResponse response,HttpServletRequest request) {
 		try {
 			ExcelData data = new ExcelData();
 			data.setFileName("模版.xlsx");
@@ -64,7 +65,7 @@ public class ExcelController {
 			data.setHead(aa);
 			List<String []> list = new ArrayList<>();
 			data.setData(list);
-			ExcelUtil.exportExcel(response, data);
+			ExcelUtil.exportExcel(response,request, data);
 		} catch (Exception e) {
 			  logger.error("Excel导出失败！错误信息为："+e.getMessage());
 		}

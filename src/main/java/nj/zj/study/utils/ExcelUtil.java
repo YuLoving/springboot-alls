@@ -8,6 +8,7 @@ import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.InputStream;
@@ -36,7 +37,7 @@ public class ExcelUtil {
      * 修改描述：
      * 修改时间：
      */
-    public static void exportExcel(HttpServletResponse response, ExcelData data) {
+    public static void exportExcel(HttpServletResponse response, HttpServletRequest request,ExcelData data) {
         log.info("导出解析开始，fileName:{}",data.getFileName());
         try {
             //实例化HSSFWorkbook
@@ -46,9 +47,10 @@ public class ExcelUtil {
             //设置表头
             setTitle(workbook, sheet, data.getHead());
             //设置单元格并赋值
-            setData(sheet, data.getData());
+            //setData(sheet, data.getData());
+            setData(workbook,sheet, data.getData());
             //设置浏览器下载
-            setBrowser(response, workbook, data.getFileName());
+            setBrowser(response, request,workbook, data.getFileName());
             log.info("导出解析成功!");
         } catch (Exception e) {
             log.info("导出解析失败!");
@@ -79,6 +81,9 @@ public class ExcelUtil {
             font.setBold(true);
             style.setFont(font);
             style.setDataFormat(HSSFDataFormat.getBuiltinFormat("m/d/yy h:mm"));
+           /* //设置单元格格式为"文本"
+            HSSFDataFormat format = workbook.createDataFormat();
+            style.setDataFormat(format.getFormat("@"));*/
             //创建表头名称
             HSSFCell cell;
             for (int j = 0; j < str.length; j++) {
@@ -86,6 +91,7 @@ public class ExcelUtil {
                 cell.setCellValue(str[j]);
                 cell.setCellStyle(style);
             }
+
         } catch (Exception e) {
             log.info("导出时设置表头失败！");
             e.printStackTrace();
@@ -102,16 +108,24 @@ public class ExcelUtil {
      * 修改描述：
      * 修改时间：
      */
-    private static void setData(HSSFSheet sheet, List<String[]> data) {
+    private static void setData( HSSFWorkbook workbook,HSSFSheet sheet, List<String[]> data) {
         try{
             int rowNum = 1;
-            for (int i = 0; i < data.size(); i++) {
-                HSSFRow row = sheet.createRow(rowNum);
-                for (int j = 0; j < data.get(i).length; j++) {
-                    row.createCell(j).setCellValue(data.get(i)[j]);
+                if(data!=null && !data.isEmpty()) {
+                    for (int i = 0; i < data.size(); i++) {
+                        HSSFRow row = sheet.createRow(rowNum);
+                        for (int j = 0; j < data.get(i).length; j++) {
+                            row.createCell(j).setCellValue(data.get(i)[j]);
+                        }
+                        rowNum++;
+                    }
+                }else{
+                    //设置单元格格式为"文本"
+                    HSSFCellStyle textStyle = workbook.createCellStyle();
+                    HSSFDataFormat format = workbook.createDataFormat();
+                    textStyle.setDataFormat(format.getFormat("@"));
+                    sheet.setDefaultColumnStyle(2,textStyle);
                 }
-                rowNum++;
-            }
             log.info("表格赋值成功！");
         }catch (Exception e){
             log.info("表格赋值失败！");
@@ -129,13 +143,25 @@ public class ExcelUtil {
      * 修改描述：
      * 修改时间：
      */
-    private static void setBrowser(HttpServletResponse response, HSSFWorkbook workbook, String fileName) {
+    private static void setBrowser(HttpServletResponse response, HttpServletRequest request, HSSFWorkbook workbook, String fileName) {
         try {
             //清空response
             response.reset();
             //设置response的Header
             String encode = URLEncoder.encode(fileName, "UTF-8");
-            response.addHeader("Content-Disposition", "attachment;filename=" + encode);
+            //response.addHeader("Content-Disposition", "attachment;filename=" + encode);
+            /**
+             * 处理火狐不兼容
+             */
+            String agent = request.getHeader("USER-AGENT").toLowerCase();
+            response.setCharacterEncoding("utf-8");
+            if (agent.contains("firefox")) {
+                response.addHeader("Content-Disposition", "attachment;filename="+ new String(encode.getBytes("GB2312"),"ISO-8859-1"));
+            } else {
+                response.addHeader("content-disposition", "attachment;filename=" + encode );
+            }
+
+
             OutputStream os = new BufferedOutputStream(response.getOutputStream());
             response.setContentType("application/vnd.ms-excel");
             //将excel写入到输出流中
