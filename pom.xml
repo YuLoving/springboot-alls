@@ -47,7 +47,13 @@
 			<optional>true</optional>
 			<scope>true</scope>
 		</dependency>
-
+		
+		<!--springboot给我们封装好了邮件功能  -->
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		
 		<!--spring模板引擎 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
