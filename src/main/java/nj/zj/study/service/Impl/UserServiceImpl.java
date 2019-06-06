@@ -1,6 +1,9 @@
 package nj.zj.study.service.Impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,6 +93,58 @@ public class UserServiceImpl implements UserService {
 		//设置过期时间
 		jedisClient.expire(User_key, USER_KRY_EXPIRE);
 		return list;
+	}
+
+	/* 
+	 * 登录成功之后，进入首页，要反馈给对应用户相匹配的权限菜单
+	 */
+	@Override
+	public List<Map<String, Object>> getUserInfo(String userName) {
+		List<Map<String, Object>> list = mapper.getUserAuthInfo(userName);
+		List<Map<String, Object>> result = new ArrayList<>();
+		//标识，用来判断第一个菜单默认是展开的
+		boolean isFirst=true;
+		for (Map<String, Object> map : list) {
+			if(map.get("parent_id")==null) {
+				//对于父级菜单
+				Map<String, Object> pmap = new HashMap<>();
+				pmap.put("text", map.get("auth_name"));
+				pmap.put("itemId", map.get("id"));
+				if(isFirst) {
+					pmap.put("state", "open");
+					isFirst=false;
+				}
+				result.add(pmap);	
+			}else {
+				//对于子菜单
+				for (Map<String, Object> map2 : result) {
+					Map<String, Object> child=null;
+					if(map.get("parent_id").toString().equals(map2.get("itemId")))
+					{
+						//子菜单的父id，正好是result中的ID
+						child = new HashMap<>();
+						child.put("text", map.get("auth_name"));
+						child.put("data", map.get("auth_url"));
+					}
+					if(map.get("parent_id").toString().equals(map2.get("itemId"))
+							&&map2.get("children")==null ) {
+						List<Map<String, Object>> children = new ArrayList<>();
+						children.add(child);
+						map2.put("children", children);
+						break;
+					}else if(map.get("parent_id").toString().equals(map2.get("itemId"))
+							&& map2.get("children")!=null) {
+						List<Map<String, Object>> children = (List<Map<String, Object>>) map2.get("children");
+						children.add(child);
+						break;
+					}
+					
+				}
+				
+			}
+			
+		}
+		return result;
 	}
 
 }

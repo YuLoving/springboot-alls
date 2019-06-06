@@ -1,6 +1,7 @@
 package nj.zj.study.mapper;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -41,4 +42,7 @@ public interface Usermapper {
 	Set<String> getAuthNamesByUsername(@Param("userName") String name);
 	//获取权限菜单信息
 	Set<String> getRoleIdsByUserName(@Param("userName") String name);
+	
+	//通过用户名来查看他有哪些菜单权限
+	List<Map<String,Object>> getUserAuthInfo (String username);
 }

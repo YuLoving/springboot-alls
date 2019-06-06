@@ -47,5 +47,10 @@ WHERE
 	and a.user_name = #{userName} 
 	</if>
 	</select>
+	
+	<select id="getUserAuthInfo" parameterType="string" resultType="map">
+		SELECT DISTINCT(c.id),c.auth_name,parent_id,auth_url,c.auth_order,a.corp_id corpId FROM yhjob_user a,yhjob_role b,yhjob_auth c,yhjob_map_user_role d,yhjob_map_role_auth e
+		WHERE a.user_name = #{userName} AND a.id = d.user_id AND d.role_id = b.id AND b.id = e.role_id AND e.auth_id = c.id AND c.auth_status ='A'	ORDER BY c.parent_id,c.auth_order
+	</select>
 </mapper>
 	
