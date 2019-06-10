@@ -1,7 +1,9 @@
 package nj.zj.study.controller;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,8 +89,18 @@ public class TestSwaggerController {
 	 		List<Map<String, Object>> list = service.getbyage(age);
 	 		System.err.println("到哪了1");
 	 		for (Map<String, Object> map : list) {
-				String oldname = map.get("name").toString();
-				oldname=name;
+				/**
+				 * 对map使用Iterator遍历时可以修改value的值（即引用传递）
+				 */
+	 			Iterator<Entry<String, Object>> iterator = map.entrySet().iterator();
+	 			while(iterator.hasNext()) {
+	 				Entry<String, Object> next = iterator.next();
+	 				String key = next.getKey();
+	 				//String value = (String) next.getValue();
+	 				if(key.equals("name")) {
+	 				map.put(key, name);
+	 				}
+	 			}
 			}
 	 		System.err.println("到哪了2");
 	 		System.out.println(list);
