@@ -57,6 +57,7 @@ public class Testcontroller {
 			//取出结果
 			String aa = (String) redisUtil.get(key);
 			JSONArray array = JSONArray.parseArray(aa);
+			System.out.println(array);
 			return array;
 			
 		}
