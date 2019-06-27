@@ -148,7 +148,7 @@ public class Jiami {
 	      
 
 	    public static void main(String[] args) throws UnsupportedEncodingException, DecoderException { 
-	    	//加密内容
+	    	/*//加密内容
 	        String content = "123456787654321";  
 	        //AES加密解密秘钥
 	        String password = "37f3a0703bae26bba6e8c23849178043";
@@ -160,9 +160,11 @@ public class Jiami {
 	        //通过base64编码
 	        String encodeStr = encode(encryptResultStr.getBytes());
 	        System.out.println("base64编码后：" + encodeStr);  
-	        
+	        */
+	    	 String password ="Yucb6Lkt";
+	    	
 	        //通过base64解码
-	        byte[] decodeStr = decode(encodeStr);
+	        byte[] decodeStr = decode("W3fQXxtIX2MiULrVbtpP0oNgRHqwBEAvE9eFsXpdtzOhOif/5s2U3EJ7Qs5IE+SX");
 	        String newdecodeStr = new String(decodeStr);
 	        System.out.println("base64解码后：" +newdecodeStr);
 	        

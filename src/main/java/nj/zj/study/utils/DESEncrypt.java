@@ -16,7 +16,7 @@ import java.security.spec.AlgorithmParameterSpec;
 public class DESEncrypt {
 
 	/**
-	 * 鍔犲瘑
+	 * 加密
 	 *
 	 * @param key
 	 * @param data
@@ -28,7 +28,7 @@ public class DESEncrypt {
 		try {
 			DESKeySpec dks = new DESKeySpec(key.getBytes());
 			SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
-			// key鐨勯暱搴︿笉鑳藉灏忎簬8浣嶅瓧鑺�
+			// key的长度不能够小于8位字节
 			Key secretKey = keyFactory.generateSecret(dks);
 			Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
 			IvParameterSpec iv = new IvParameterSpec(key.getBytes());// 鍚戦噺
@@ -44,7 +44,7 @@ public class DESEncrypt {
 	}
 
 	/**
-	 * 瑙ｅ瘑
+	 * 解密
 	 *
 	 * @param key
 	 * @param xml
@@ -55,7 +55,7 @@ public class DESEncrypt {
 		try {
 			DESKeySpec dks = new DESKeySpec(key.getBytes());
 			SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
-			// key鐨勯暱搴︿笉鑳藉灏忎簬8浣嶅瓧鑺�
+			// key的长度不能够小于8位字节
 			Key secretKey = keyFactory.generateSecret(dks);
 			Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
 			IvParameterSpec iv = new IvParameterSpec(key.getBytes());
@@ -69,7 +69,7 @@ public class DESEncrypt {
 	}
 
 	/**
-	 * 鑾峰彇缂栫爜鍚庣殑鍊�(utf-8)
+	 *获取编码后的值(utf-8)
 	 *
 	 * @param key
 	 * @param data
