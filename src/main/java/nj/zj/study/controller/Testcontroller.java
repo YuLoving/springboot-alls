@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -18,6 +20,7 @@ import com.alibaba.fastjson.JSONObject;
 import nj.zj.study.config.redisTemplate.RedisUtil;
 import nj.zj.study.mapper.TestMapper;
 import nj.zj.study.model.TestSwaggerInfo;
+import nj.zj.study.utils.IPUtils;
 
 @RestController
 public class Testcontroller {
@@ -61,5 +64,16 @@ public class Testcontroller {
 			return array;
 			
 		}
+		
+		
+		/**
+		 * 测试获取请求端的IP
+		 */
+		@GetMapping("/ip")
+		public String getip(HttpServletRequest request) {
+			String ipAddr = IPUtils.getIpAddr(request);
+			return ipAddr;
+		}
+		
 		
 }
