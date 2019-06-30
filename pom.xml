@@ -202,18 +202,27 @@
 			<artifactId>jdom</artifactId>
 			<version>2.0.2</version>
 		</dependency>
-		<!--springboot集成的rabbitmq  -->
+		<!--springboot集成的rabbitmq -->
 		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency>
-		<!--http连接-->
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+		<!--http连接 -->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.5.9</version>
 		</dependency>
+
+		<!-- fastdfs分布式文件系统 (直接考了jar包放入工程中，所以该依赖注释了)-->
 		
+		<!-- <dependency>
+			<groupId>org.csource</groupId>
+			<artifactId>fastdfs-client-java</artifactId>
+			<version>1.27-RELEASE</version>
+		</dependency>
+ -->
+
 	</dependencies>
 
 	<build>
