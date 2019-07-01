@@ -214,14 +214,15 @@
 			<version>4.5.9</version>
 		</dependency>
 
-		<!-- fastdfs分布式文件系统 (直接考了jar包放入工程中，所以该依赖注释了)-->
-		
-		<!-- <dependency>
-			<groupId>org.csource</groupId>
-			<artifactId>fastdfs-client-java</artifactId>
-			<version>1.27-RELEASE</version>
+		<!-- fastdfs分布式文件系统 (直接考了jar包放入工程中，所以该依赖注释了) -->
+
+		<!-- <dependency> <groupId>org.csource</groupId> <artifactId>fastdfs-client-java</artifactId> 
+			<version>1.27-RELEASE</version> </dependency> -->
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
 		</dependency>
- -->
 
 	</dependencies>
 

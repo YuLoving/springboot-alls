@@ -1,7 +1,14 @@
 package nj.zj.study;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+
+import nj.zj.study.config.redisTemplate.RedisUtil;
+import nj.zj.study.utils.IPUtils;
 import nj.zj.study.utils.http.HttpRequestUtils;
 
 /**
@@ -14,32 +21,27 @@ import nj.zj.study.utils.http.HttpRequestUtils;
 
 */
 public class Test {
+	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	String date = simpleDateFormat.format(new Date());
+	
+	//定义redis中 hash类型中大key的值
+ String HKEY="AAAABBBBCCCC";
+	//定义redis中 hash类型中小key的值
+	  
+	 
 	public static void main(String[] args) {
-		String url="http://119.18.195.171/gsquery/companychange";
-
-
-		String cname="北京真维嘉真空设备有限公司";
-
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("cname", cname);
-	/*
-		byte[] https = HttpsStatusUtil.postHttp2(url, jsonObject.toString(), "utf-8",50000);
-		String dataStr = new String(https,"utf-8");*/
-		JSONObject json = HttpRequestUtils.httpPost(url, jsonObject);
-
-
-		//JSONObject json = JSONObject.parseObject(dataStr);
-		JSONArray array=null;
-		if(200==json.getInteger("code")) {
-			array = json.getJSONArray("result");
-			if(array.isEmpty()) {
-				System.out.println("00000000000000000");
-			}
-
-		}/*else if() {
-			reyrun.///
-		}ele*/
-
-		System.out.println(array);
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String date = simpleDateFormat.format(new Date());
+		String HKEY="AAAABBBBCCCC";
+		String key="ABC";
+		RedisUtil redisUtil = new RedisUtil();
+		User user = new User();
+		user.setIdcard("123");
+		user.setName("我的思考");
+		user.setPhone("12345679");
+		
+		String jsonString = JSON.toJSONString(user);
+		JSONObject json = JSONObject.parseObject(jsonString);
+		redisUtil.hset("AAAABBBBCCCC", "ABC", "10");
 	}
 }
