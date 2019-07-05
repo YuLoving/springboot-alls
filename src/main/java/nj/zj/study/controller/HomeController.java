@@ -52,7 +52,7 @@ public class HomeController {
 	 */
 	@PostMapping("/dologin")
 	@ResponseBody
-	public Object dologin(HttpServletRequest request,Map<Object, Object> map) {
+	public Object dologin(HttpServletRequest request,Map<Object, Object> map,String username,String password ) {
 		JSONObject result = new JSONObject();
 		try {
 			//获取当前用户主体
@@ -60,6 +60,8 @@ public class HomeController {
 			UsernamePasswordToken token = new UsernamePasswordToken();
 			token.setUsername(request.getParameter("username"));
 			token.setPassword(request.getParameter("password").toCharArray());
+			/*token.setUsername(username);
+			token.setPassword(password.toCharArray());*/
 			//如果前台登录时，勾选了记住我则shiro需要设置RememberMe，反之则不需要
 			String remember = request.getParameter("remember");
 			if(StringUtils.isNotBlank(remember) && remember.equals("on")) {
