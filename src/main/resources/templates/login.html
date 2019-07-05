@@ -1,14 +1,81 @@
 <!DOCTYPE html>
+
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+
+    <meta charset="UTF-8">
+
+    <title></title>
+   
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
 </head>
+
+<style>
+
+</style>
+
 <body>
-	<form action="/home/dologin" method="post" >
-		姓名：<input type="text" name="username"><br>
-		密码：<input type="password" name="password"><br>
-		<input type="submit" value="提交">
-	</form>
+
+    <p>姓名：<input type="text" id="username"></p>
+
+    <p>密码：<input type="password" id="password"></p>
+
+    <p><input type="submit" id="login"></p>
+
 </body>
+
+<script>
+
+    $("#login").click(
+        function () {
+            var username = $("#username").val();//获取页面中登录名和密码
+            var password = $("#password").val();
+            if (username == "" || password == "") {//判断两个均不为空（其他判断规则在其输入时已经判断）
+                alert("手机号密码均不能为空！")
+                return false;
+            } else {//以上均符合要求，则调用登录接口
+                $.ajax({
+                    url: '/home/dologin',//相对应的接口地址
+                    type: 'post',
+                    data: { "username": username, "password": password },//向服务器（接口）传递的参数
+                    success: function (data) {//服务器（接口）返回来的数据
+                        if (data['code']==200) {//如果返回来的信息说明提交的信息为正确的
+                            window.location.href = data['msg'];//正确登录后页面跳转至
+                           // alert("1111")
+                        }
+                        else {//如果返回来的信息说明提供的信息为错误的
+                        	alert(data['msg']);
+                        }
+
+                    }
+
+                })
+
+            }
+
+        }
+
+    );
+
+    /*直接点击enter免除手动点击登录按钮*/
+
+    $(document).keyup(function (event) {
+
+        if (event.keyCode == 13) {
+
+            $("#login").trigger("click");
+
+        }
+
+    });
+
+</script>
+
 </html>

@@ -58,10 +58,10 @@ public class HomeController {
 			//获取当前用户主体
 			Subject subject = SecurityUtils.getSubject();
 			UsernamePasswordToken token = new UsernamePasswordToken();
-			token.setUsername(request.getParameter("username"));
-			token.setPassword(request.getParameter("password").toCharArray());
-			/*token.setUsername(username);
-			token.setPassword(password.toCharArray());*/
+			/*token.setUsername(request.getParameter("username"));
+			token.setPassword(request.getParameter("password").toCharArray());*/
+			token.setUsername(username);
+			token.setPassword(password.toCharArray());
 			//如果前台登录时，勾选了记住我则shiro需要设置RememberMe，反之则不需要
 			String remember = request.getParameter("remember");
 			if(StringUtils.isNotBlank(remember) && remember.equals("on")) {
