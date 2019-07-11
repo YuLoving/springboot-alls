@@ -21,6 +21,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import nj.zj.study.config.redisTemplate.RedisUtil;
 import nj.zj.study.model.UserInfo;
 import nj.zj.study.service.UserService;
 
@@ -39,6 +40,8 @@ public class HomeController {
 	@Autowired
 	private UserService  userservice;
 	
+	@Autowired 
+	private RedisUtil redisUtil;
 	
 	@GetMapping("/login")
 	public String login() {
@@ -52,16 +55,27 @@ public class HomeController {
 	 */
 	@PostMapping("/dologin")
 	@ResponseBody
-	public Object dologin(HttpServletRequest request,Map<Object, Object> map,String username,String password ) {
+	public Object dologin(HttpServletRequest request,String vercode,String cToken) {
 		JSONObject result = new JSONObject();
 		try {
+			//1.先校验图片验证码，如果不通过，直接返回
+			if(StringUtils.isNoneBlank(vercode) && StringUtils.isNoneBlank(cToken))
+			{
+				String code = (String) redisUtil.get(cToken);
+				if(!code.equals(vercode)) {
+					result.put("code", 400);
+					result.put("msg", "验证码输入错误");
+					return result;
+				}
+			}
+			
 			//获取当前用户主体
 			Subject subject = SecurityUtils.getSubject();
 			UsernamePasswordToken token = new UsernamePasswordToken();
-			/*token.setUsername(request.getParameter("username"));
-			token.setPassword(request.getParameter("password").toCharArray());*/
-			token.setUsername(username);
-			token.setPassword(password.toCharArray());
+			token.setUsername(request.getParameter("username"));
+			token.setPassword(request.getParameter("password").toCharArray());
+			/*token.setUsername(username);
+			token.setPassword(password.toCharArray());*/
 			//如果前台登录时，勾选了记住我则shiro需要设置RememberMe，反之则不需要
 			String remember = request.getParameter("remember");
 			if(StringUtils.isNotBlank(remember) && remember.equals("on")) {

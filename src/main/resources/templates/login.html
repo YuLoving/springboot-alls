@@ -35,6 +35,18 @@
         <input type="password" class="form-control" id="password" name="password">
     </div>
 </div>
+
+<div class="form-group">
+    <label for="vercode" class="col-sm-2 control-label">验证码：</label>
+    <div class="col-sm-3">
+        <input type="text" class="form-control" id="vercode" name="vercode">
+    </div>
+      <img id="change"/>
+</div>
+
+
+
+
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-4">
         <button type="submit" class="btn btn-success" style="width:250px" id="login">确认登录</button>
@@ -57,14 +69,14 @@
                 $.ajax({
                     url: '/home/dologin',//相对应的接口地址
                     type: 'post',
-                    data: { "username": username, "password": password },//向服务器（接口）传递的参数
+                    data: {username,password},//向服务器（接口）传递的参数
                     success: function (data) {//服务器（接口）返回来的数据
-                        if (data['code']==200) {//如果返回来的信息说明提交的信息为正确的
-                            window.location.href = data['msg'];//正确登录后页面跳转至
+                        if (data.code==200) {//如果返回来的信息说明提交的信息为正确的
+                            window.location.href = data.msg;//正确登录后页面跳转至
                            // alert("1111")
                         }
                         else {//如果返回来的信息说明提供的信息为错误的
-                        	alert(data['msg']);
+                        	alert(data.msg);
                         }
 
                     }
@@ -88,7 +100,21 @@
         }
 
     });
+	/* 生成图片验证码 */
+    $(function(){
+        $.ajax({
+            url: '/captcha',
+            type: 'post',
+            data: {},
+            success: function(res){
+                var suf = res.img;
+                var src = 'data:image/png;base64,'+suf;
+                $('#change').attr('src',src);
+            }
 
+        })
+
+    })
 </script>
 
 </html>
